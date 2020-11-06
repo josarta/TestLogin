@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:messages id="mensajeOk" globalOnly="true" />
+
+        <h:form id="formId">
+
+            <br/>
+
+            #{usuarioRequest.nuevoActualizar}
+            <hr/>
+            <br/>
+            <h:inputText value="#{usuarioRequest.objUsuario.id}"  style="display: none" ></h:inputText>
+
+            <h:outputLabel for="nombreIn"> Nombres </h:outputLabel>    
+            <h:inputText value="#{usuarioRequest.objUsuario.nombres}"   id="nombreIn"  maxlength="30" requiredMessage="Ingrese un nombre valido"  required="true" ></h:inputText>
+            <br/>
+            <h:message style="color: red" for="nombreIn"></h:message>
+            <br/>
+            <h:outputLabel for="apellidosIn"> Apellidos </h:outputLabel>    
+            <h:inputText value="#{usuarioRequest.objUsuario.apellidos}"   id="apellidosIn" maxlength="30" requiredMessage="Ingrese un apellido valido"  required="true" ></h:inputText>
+            <br/>
+            <h:message style="color: red" for="apellidosIn"></h:message>
+            <br/>
+
+            <h:outputLabel for="tipoIn"> Tipo de documento </h:outputLabel>    
+            <h:selectOneMenu value="#{usuarioRequest.objUsuario.tipoDocumento}"   id="tipoIn" >
+                <f:selectItem itemLabel="Cedula" itemValue="Cedula"></f:selectItem>
+                <f:selectItem itemLabel="Cedula Ex" itemValue="Cedula EX"></f:selectItem>
+                <f:selectItem itemLabel="Tar. Identidad" itemValue="Tar. Identidad"></f:selectItem>
+                <f:selectItem itemLabel="Pasaporte" itemValue="Pasaporte"></f:selectItem>
+            </h:selectOneMenu>
+            <br/>
+            <h:message style="color: red" for="tipoIn"></h:message>
+            <br/>
+            <h:outputLabel for="documentoIn"> Numero documento </h:outputLabel>    
+            <h:inputText value="#{usuarioRequest.objUsuario.documento}"  validatorMessage="debe ingresar un numero"  id="documentoIn" maxlength="11" requiredMessage="Ingrese un Numero documento valido"  required="true" ></h:inputText>
+            <br/>
+            <h:message style="color: aqua" for="documentoIn"></h:message>
+            <br/>
+            <h:outputLabel for="correoIn"> Correo </h:outputLabel>    
+            <h:inputText  value="#{usuarioRequest.objUsuario.correo}"  id="correoIn" maxlength="30" requiredMessage="Ingrese un correo valido"  required="true" ></h:inputText>
+            <br/>
+            <h:message style="color: red" for="correoIn"></h:message>
+            <br/>
+            <h:outputLabel for="claveIn"> Clave </h:outputLabel>    
+            <h:inputSecret id="claveIn" value="#{usuarioRequest.objUsuario.clave}"   maxlength="6" requiredMessage="Ingrese una clave valido"  required="true" ></h:inputSecret>
+            <br/>
+            <h:message style="color: red" for="claveIn"></h:message>
+            <br/>
+
+
+            <h:commandButton action="#{usuarioRequest.actualizarUsuario()}" value="Actualizar"></h:commandButton>
+            <h:commandButton action="#{usuarioRequest.registrarUsuario()}" value="Ingresar"></h:commandButton>
+
+        </h:form>
+
+
+
+        <br/>
+        <hr/>
+        <br/>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>Nombres</td>
+                    <td>Apellidos</td>
+                    <td>Tipo Documento</td>
+                    <td>Documento</td>
+                    <td>correo</td>
+                    <td>Clave</td>
+                    <td>Acciones</td>
+
+                </tr>
+            </thead>            
+            <tbody>
+                <h:form>
+                    <c:forEach items="#{usuarioRequest.listaUsuarios}" var="objIt">
+                        <tr>
+                            <td>#{objIt.nombres}</td>
+                            <td>#{objIt.apellidos}</td>
+                            <td>#{objIt.tipoDocumento}</td>
+                            <td>#{objIt.documento}</td>
+                            <td>#{objIt.correo}</td>
+                            <td>#{objIt.clave}</td>
+                            <td>
+                                <h:commandButton action="#{usuarioRequest.cargarFormulario(objIt)}" value="Ver"></h:commandButton>
+                                <h:commandButton action="#{usuarioRequest.removerUsuario(objIt)}" value="Remover"></h:commandButton>
+                            </td>
+
+
+                        </tr>
+
+                    </c:forEach>
+                </h:form>
+
+            </tbody>
+        </table>
+
+
+        <br/>
+        <hr/>
+        <br/>
+
+
+        <h:form>
+            <h:outputLabel for="correoLg"> Correo </h:outputLabel>    
+            <h:inputText value="#{usuarioRequest.correo}"   id="correoLg"  maxlength="30" requiredMessage="Ingrese un correo valido"  required="true" ></h:inputText>
+            <br/>
+            <h:message style="color: red" for="correoLg"></h:message>
+            <br/>
+            <h:outputLabel for="claveLg"> Clave </h:outputLabel>    
+            <h:inputSecret value="#{usuarioRequest.clave}"   id="claveLg"  maxlength="30" requiredMessage="Ingrese una clave"  required="true" ></h:inputSecret>
+            <br/>
+            <h:message style="color: red" for="claveLg"></h:message>
+
+            <br/>
+
+            <h:commandButton action="#{usuarioRequest.validarUsuario()}" value="LG"></h:commandButton>
+        </h:form>
+
+    </h:body>
+</html>
+

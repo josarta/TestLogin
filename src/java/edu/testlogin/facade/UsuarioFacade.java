@@ -40,5 +40,18 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
             return new Usuario();
         }
     }
+    
+    @Override
+    public Usuario recuperarClave( String correIn ){
+        try {
+          Query qe = em.createQuery("SELECT u FROM Usuario u WHERE u.correo = :correoIn");
+          qe.setParameter("correoIn", correIn);
+          return  (Usuario) qe.getSingleResult();
+        } catch (Exception e) {
+            return new Usuario();
+        }
+        
+    }
+    
 
 }

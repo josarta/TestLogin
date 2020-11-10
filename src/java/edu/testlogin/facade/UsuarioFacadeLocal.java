@@ -31,5 +31,7 @@ public interface UsuarioFacadeLocal {
     int count();
 
     public Usuario validarUsuario(String correo, String clave);
+
+    public Usuario recuperarClave(String correIn);
     
 }

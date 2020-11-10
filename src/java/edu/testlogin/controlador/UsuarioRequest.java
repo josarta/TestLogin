@@ -7,6 +7,7 @@ package edu.testlogin.controlador;
 
 import edu.testlogin.entity.Usuario;
 import edu.testlogin.facade.UsuarioFacadeLocal;
+import edu.testlogin.utilidad.Email;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
@@ -56,6 +57,37 @@ public class UsuarioRequest implements Serializable {
         }
         FacesMessage ms = new FacesMessage(mensaje);
         FacesContext.getCurrentInstance().addMessage("mensajeOk", ms);
+    }
+
+    public void recuperarClave() {
+
+        String mensaje = "Usuario con el correo : " + correo;
+        Usuario usuarioResultado = new Usuario();
+        usuarioResultado = usuarioFacadeLocal.recuperarClave(correo);
+
+        if (usuarioResultado.getNombres() == null) {
+            mensaje += " NO ESTA REGISTRADO ";
+        } else {
+            try {
+
+                int nuevaClave = (int) (Math.random() * 100000);
+                usuarioResultado.setClave("RE-" + nuevaClave);
+                usuarioFacadeLocal.edit(usuarioResultado);
+
+                Email.sendClaves(usuarioResultado.getCorreo(),
+                        usuarioResultado.getNombres() + " " + usuarioResultado.getApellidos(),
+                        usuarioResultado.getCorreo(),
+                        "RE-" + nuevaClave);
+
+            } catch (Exception e) {
+                System.out.println("error enviando mensaje de recuperacion --> " + e.getMessage());
+            }
+
+            mensaje += " su clave se envio al correo registrado.";
+
+        }
+        FacesMessage ms = new FacesMessage(mensaje);
+        FacesContext.getCurrentInstance().addMessage(null, ms);
     }
 
     public void removerUsuario(Usuario ObjRemover) {
